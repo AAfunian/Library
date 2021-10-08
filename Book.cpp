@@ -53,6 +53,26 @@ string Book::get_author() {
 string Book::get_copyright() {
     return copyright;
 }
+ostream& operator<<(ostream& z, Book x) {
+    cout << "Title: " << x.get_title() << ", Author: " << x.get_author() << ", ISBN: " << x.get_isbn() << '\n';
+    return z << '\n';
+}
+bool operator==(Book x, Book y) {
+    if (x.get_isbn() == y.get_isbn()) {
+        cout << "Same book!\n";
+        return true;
+    }
+    else cout << "Different books!\n";
+    return false;
+}
+bool operator!=(Book x, Book y) {
+    if (x.get_isbn() == y.get_isbn()) {
+        cout << "Same book!\n";
+        return false;
+    }
+    else cout << "Different books!\n";
+    return true;
+}
 bool Book::validISBN(string i) {
     char prev;
     int counter = 0;
@@ -102,4 +122,8 @@ bool Book::validISBN(string i) {
 int main()
 {
     Book test("39-66-73-K", "Amir's Book", "Amir Afunian", "2007");
+    cout << test;
+    Book test2("54-2-973-z", "Joe's Book", "Joe Smith", "1988");
+    cout << test2;
+    test != test2;
 }
