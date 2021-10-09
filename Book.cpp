@@ -1,6 +1,7 @@
 // Book
 // 10/07/2021
 // Amir Afunian
+// Exercise #8
 
 #include <iostream>
 #include <ctype.h>
@@ -10,6 +11,48 @@ using namespace std;
 enum class Genre {
     fiction, nonfiction, periodical, biography, children
 };
+class Patron {
+private:
+    string name;
+    int lib_number;
+    double balance;
+public:
+    Patron(string name, int lib_number, double balance);
+    string get_name();
+    int get_lib();
+    double get_balance();
+    void set_balance(double);
+    bool has_balance();
+};
+Patron::Patron(string n, int l, double b) {
+    name = n;
+    lib_number = l;
+    balance = b;
+}
+string Patron::get_name() {
+    return name;
+}
+int Patron::get_lib() {
+    return lib_number;
+}
+double Patron::get_balance() {
+    return balance;
+}
+void Patron::set_balance(double fee) {
+    balance += fee; // Assumes fee is positive or negative depending on dues or payment
+}
+bool Patron::has_balance() {
+    //return balance > 0 ? true : false; // Optimal if cout not required
+    if (balance > 0) {
+        cout << get_name() << "'s current dues: $" << get_balance() << '\n';
+        return true;
+    }
+    else {
+        int neg = get_balance() < 0 ? -1 : 1;
+        cout << get_name() << "'s current balance: $" << neg*get_balance() << '\n';
+        return false;
+    }
+}
 class Book {
 private:
     string isbn;
@@ -30,7 +73,6 @@ public:
     bool validISBN(string);
 };
 Book::Book(string i, string t, string a, string c, Genre g) {
-
     if (validISBN(i)) isbn = i;
     else return;
     //cout << "ISBN: " << isbn << " SUCCESS!\n"; // TEST
@@ -73,7 +115,7 @@ ostream& operator<<(ostream& os, Genre g) {
     }
 }
 ostream& operator<<(ostream& os, Book x) {
-    cout << "Title: " << x.get_title() << ", Author: " << x.get_author() << ", Genre: " << x.get_genre() << ", ISBN: " << x.get_isbn() << '\n';
+    cout << "Title: " << x.get_title() << ", Author: " << x.get_author() << ", Genre: " << x.get_genre() << ", ISBN: " << x.get_isbn();
     return os << '\n';
 }
 bool operator==(Book x, Book y) {
@@ -140,6 +182,10 @@ bool Book::validISBN(string i) {
 
 int main()
 {
+    Patron amir("Amir", 1, 5.99);
+    amir.has_balance();
+    amir.set_balance(-20);
+    amir.has_balance();
     Book test("39-66-73-K", "Amir's Book", "Amir Afunian", "2007", Genre::nonfiction);
     cout << test;
     Book test2("54-2-973-z", "Joe's Book", "Joe Smith", "1988", Genre::periodical);
